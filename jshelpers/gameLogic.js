@@ -158,7 +158,7 @@ function newWord() {
 
 function updateScore() {
   document.getElementById('score-value').textContent = playerScore;
-  document.getElementById('words-solved').textContent = wordsSolved;
+  document.getElementById('words-solved-value').textContent = wordsSolved;
 }
 
 function resetGame() {
