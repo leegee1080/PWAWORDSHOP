@@ -1,7 +1,7 @@
 let currentWord = '';
 let revealedIndices = [];
 let playerScore = 200;
-let selectedIndex = null;
+let selectedLetter = null;
 let letterData = {};
 
 function initializeGame() {
@@ -20,7 +20,7 @@ function setupAlphabet() {
     const btn = document.createElement('button');
     btn.className = 'letter-btn';
     btn.innerHTML = `${letter}<span>${letterData[letter].price}</span>`;
-    btn.addEventListener('click', () => handleLetterClick(letter));
+    btn.addEventListener('click', () => selectLetter(letter, btn));
     alphabetDiv.appendChild(btn);
   });
 }
@@ -35,42 +35,35 @@ function displayWord() {
       box.textContent = letter;
       box.classList.add('revealed');
     } else {
-      box.addEventListener('click', () => selectBox(index));
+      box.addEventListener('click', () => handleBoxClick(index));
     }
     wordDisplay.appendChild(box);
   });
 }
 
-function selectBox(index) {
-  const boxes = document.querySelectorAll('.letter-box');
-  boxes.forEach(box => box.classList.remove('selected'));
-  if (!revealedIndices.includes(index)) {
-    boxes[index].classList.add('selected');
-    selectedIndex = index;
-  }
+function selectLetter(letter, button) {
+  const buttons = document.querySelectorAll('.letter-btn');
+  buttons.forEach(btn => btn.classList.remove('selected'));
+  button.classList.add('selected');
+  selectedLetter = letter;
 }
 
-function handleLetterClick(letter) {
-  if (selectedIndex === null) return;
+function handleBoxClick(index) {
+  if (selectedLetter === null) return;
   const boxes = document.querySelectorAll('.letter-box');
-  playerScore -= letterData[letter].price;
+  playerScore -= letterData[selectedLetter].price;
   updateScore();
-  if (letter.toLowerCase() === currentWord[selectedIndex].toLowerCase()) {
-    revealedIndices.push(selectedIndex);
-    boxes[selectedIndex].textContent = letter;
-    boxes[selectedIndex].classList.add('revealed');
-    boxes[selectedIndex].classList.remove('selected');
+  if (selectedLetter.toLowerCase() === currentWord[index].toLowerCase()) {
+    revealedIndices.push(index);
+    boxes[index].textContent = selectedLetter;
+    boxes[index].classList.add('revealed');
     if (revealedIndices.length === currentWord.length) {
       completeWord();
     }
   } else {
-    boxes[selectedIndex].classList.add('incorrect');
-    setTimeout(() => {
-      boxes[selectedIndex].classList.remove('incorrect');
-      boxes[selectedIndex].classList.remove('selected');
-    }, 1000);
+    boxes[index].classList.add('incorrect');
+    setTimeout(() => boxes[index].classList.remove('incorrect'), 1000);
   }
-  selectedIndex = null;
 }
 
 function completeWord() {
@@ -93,7 +86,7 @@ function completeWord() {
 
 function newWord() {
   currentWord = getRandomWord();
-  const revealCount = Math.floor(currentWord.length * 0.6);
+  const revealCount = Math.floor(currentWord.length * 0.7);
   revealedIndices = [];
   for (let i = 0; i < revealCount; i++) {
     let index;
@@ -113,6 +106,9 @@ function resetGame() {
   playerScore = 200;
   updateScore();
   newWord();
+  const buttons = document.querySelectorAll('.letter-btn');
+  buttons.forEach(btn => btn.classList.remove('selected'));
+  selectedLetter = null;
 }
 
 function saveGame() {
