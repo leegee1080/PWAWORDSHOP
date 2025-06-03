@@ -4,7 +4,7 @@ let playerScore = 200;
 let wordsSolved = 0;
 let selectedLetter = null;
 let letterData = {};
-const initialRevealPercentage = 0.4;
+const initialRevealPercentage = 0.5;
 const revealCost = 100;
 const skipCost = 50;
 
