@@ -20,13 +20,14 @@ body {
   box-sizing: border-box;
   transform: scale(var(--scale-factor, 1));
   transform-origin: top center;
-  padding-top: 80px;
+  padding-top: 100px;
 }
 
 #score {
   position: fixed;
   top: 10px;
-  right: 10px;
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 54px;
   font-weight: bold;
   z-index: 10;
