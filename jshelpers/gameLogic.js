@@ -64,10 +64,10 @@ function handleLetterClick(letter) {
     }
   } else {
     boxes[selectedIndex].classList.add('incorrect');
+    boxes[selectedIndex].classList.remove('selected');
     setTimeout(() => boxes[selectedIndex].classList.remove('incorrect'), 1000);
   }
   selectedIndex = null;
-  boxes[selectedIndex]?.classList.remove('selected');
 }
 
 function completeWord() {
@@ -90,7 +90,7 @@ function completeWord() {
 
 function newWord() {
   currentWord = getRandomWord();
-  const revealCount = Math.floor(currentWord.length * 0.4);
+  const revealCount = Math.floor(currentWord.length * 0.6);
   revealedIndices = [];
   for (let i = 0; i < revealCount; i++) {
     let index;
