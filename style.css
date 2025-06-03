@@ -6,42 +6,46 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   user-select: none;
-  max-width: 360px;
-  overflow: hidden;
+  width: 100vw;
+  overflow-x: hidden;
 }
 
 #game-container {
   text-align: center;
-  padding: 10px;
+  padding: 15px;
   width: 100%;
+  max-width: 480px;
   box-sizing: border-box;
+  transform: scale(var(--scale-factor, 1));
+  transform-origin: top center;
 }
 
 #score {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 18px;
+  top: 15px;
+  right: 15px;
+  font-size: 54px;
+  font-weight: bold;
 }
 
 #word-display {
   display: flex;
   justify-content: center;
-  margin: 30px 0;
+  margin: 40px 0;
   flex-wrap: wrap;
 }
 
 .letter-box {
-  width: 32px;
-  height: 32px;
+  width: 48px;
+  height: 48px;
   border: 2px solid #ffffff;
-  margin: 3px;
+  margin: 4px;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 18px;
+  font-size: 27px;
   text-transform: uppercase;
   background-color: #333;
 }
@@ -58,22 +62,38 @@ body {
   50% { background-color: #ff0000; }
 }
 
+#score.incorrect {
+  animation: score-blink 0.2s 5;
+}
+
+@keyframes score-blink {
+  50% { color: #ff0000; }
+}
+
+#score.correct {
+  animation: score-correct 0.2s 2;
+}
+
+@keyframes score-correct {
+  50% { color: #4CAF50; }
+}
+
 #alphabet {
   display: grid;
-  grid-template-columns: repeat(9, 32px);
-  gap: 3px;
+  grid-template-columns: repeat(9, 48px);
+  gap: 4px;
   justify-content: center;
   margin: 0 auto;
-  max-width: 340px;
+  max-width: 460px;
 }
 
 .letter-btn {
-  width: 32px;
-  height: 32px;
+  width: 48px;
+  height: 48px;
   background-color: #444;
   border: 1px solid #ffffff;
   color: #ffffff;
-  font-size: 14px;
+  font-size: 21px;
   text-transform: uppercase;
   cursor: pointer;
   position: relative;
@@ -86,31 +106,27 @@ body {
 
 .letter-btn span {
   position: absolute;
-  bottom: 1px;
-  right: 1px;
-  font-size: 8px;
+  bottom: 2px;
+  right: 2px;
+  font-size: 12px;
   color: #ccc;
 }
 
 #controls {
-  margin-top: 10px;
+  margin-top: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 340px;
+  max-width: 460px;
   margin-left: auto;
   margin-right: auto;
 }
 
 #skip-btn, #reveal-btn, #reset-btn {
-  padding: 8px 16px;
+  padding: 10px 20px;
   background-color: #555;
   border: 1px solid #ffffff;
   color: #ffffff;
   cursor: pointer;
-  font-size: 14px;
-}
-
-#skip-btn:hover, #reveal-btn:hover, #reset-btn:hover {
-  background-color: #777;
+  font-size: 16px;
 }

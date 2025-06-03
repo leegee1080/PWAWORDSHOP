@@ -3,8 +3,8 @@ let revealedIndices = [];
 let playerScore = 200;
 let selectedLetter = null;
 let letterData = {};
-const initialRevealPercentage = 0.6;
-const revealCostMultiplier = 10;
+const initialRevealPercentage = 0.4;
+const revealCost = 100;
 
 function initializeGame() {
   loadJSON('jshelpers/letterData.json').then(data => {
@@ -52,8 +52,18 @@ function selectLetter(letter, button) {
 
 function handleBoxClick(index) {
   if (selectedLetter === null) return;
+  const letterCost = letterData[selectedLetter].price;
+  if (playerScore < letterCost) {
+    const scoreElement = document.getElementById('score');
+    scoreElement.classList.add('incorrect');
+    setTimeout(() => scoreElement.classList.remove('incorrect'), 1000);
+    return;
+  }
   const boxes = document.querySelectorAll('.letter-box');
-  playerScore -= letterData[selectedLetter].price;
+  playerScore -= letterCost;
+  const scoreElement = document.getElementById('score');
+  scoreElement.classList.add('correct');
+  setTimeout(() => scoreElement.classList.remove('correct'), 400);
   updateScore();
   if (selectedLetter.toLowerCase() === currentWord[index].toLowerCase()) {
     revealedIndices.push(index);
@@ -75,18 +85,24 @@ function revealLetter() {
       unrevealedIndices.push(index);
     }
   });
-  if (unrevealedIndices.length === 0) return;
-  const randomIndex = unrevealedIndices[Math.floor(Math.random() * unrevealedIndices.length)];
-  const letter = currentWord[randomIndex];
-  const revealCost = letterData[letter].price * revealCostMultiplier;
-  if (playerScore >= revealCost) {
-    playerScore -= revealCost;
-    revealedIndices.push(randomIndex);
-    updateScore();
-    displayWord();
-    if (revealedIndices.length === currentWord.length) {
-      completeWord();
+  if (unrevealedIndices.length === 0 || playerScore < revealCost) {
+    if (playerScore < revealCost) {
+      const scoreElement = document.getElementById('score');
+      scoreElement.classList.add('incorrect');
+      setTimeout(() => scoreElement.classList.remove('incorrect'), 1000);
     }
+    return;
+  }
+  const randomIndex = unrevealedIndices[Math.floor(Math.random() * unrevealedIndices.length)];
+  playerScore -= revealCost;
+  const scoreElement = document.getElementById('score');
+  scoreElement.classList.add('correct');
+  setTimeout(() => scoreElement.classList.remove('correct'), 400);
+  revealedIndices.push(randomIndex);
+  updateScore();
+  displayWord();
+  if (revealedIndices.length === currentWord.length) {
+    completeWord();
   }
 }
 
