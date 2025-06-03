@@ -46,7 +46,8 @@ body {
 }
 
 .letter-box.selected {
-  border-color: #ff0;
+  border-color: #ffff00;
+  background-color: #555;
 }
 
 .letter-box.incorrect {

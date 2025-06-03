@@ -59,13 +59,16 @@ function handleLetterClick(letter) {
     revealedIndices.push(selectedIndex);
     boxes[selectedIndex].textContent = letter;
     boxes[selectedIndex].classList.add('revealed');
+    boxes[selectedIndex].classList.remove('selected');
     if (revealedIndices.length === currentWord.length) {
       completeWord();
     }
   } else {
     boxes[selectedIndex].classList.add('incorrect');
-    boxes[selectedIndex].classList.remove('selected');
-    setTimeout(() => boxes[selectedIndex].classList.remove('incorrect'), 1000);
+    setTimeout(() => {
+      boxes[selectedIndex].classList.remove('incorrect');
+      boxes[selectedIndex].classList.remove('selected');
+    }, 1000);
   }
   selectedIndex = null;
 }
