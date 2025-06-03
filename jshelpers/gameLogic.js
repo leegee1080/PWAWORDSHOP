@@ -3,6 +3,8 @@ let revealedIndices = [];
 let playerScore = 200;
 let selectedLetter = null;
 let letterData = {};
+const initialRevealPercentage = 0.6;
+const revealCostMultiplier = 10;
 
 function initializeGame() {
   loadJSON('jshelpers/letterData.json').then(data => {
@@ -66,6 +68,28 @@ function handleBoxClick(index) {
   }
 }
 
+function revealLetter() {
+  const unrevealedIndices = [];
+  currentWord.split('').forEach((_, index) => {
+    if (!revealedIndices.includes(index)) {
+      unrevealedIndices.push(index);
+    }
+  });
+  if (unrevealedIndices.length === 0) return;
+  const randomIndex = unrevealedIndices[Math.floor(Math.random() * unrevealedIndices.length)];
+  const letter = currentWord[randomIndex];
+  const revealCost = letterData[letter].price * revealCostMultiplier;
+  if (playerScore >= revealCost) {
+    playerScore -= revealCost;
+    revealedIndices.push(randomIndex);
+    updateScore();
+    displayWord();
+    if (revealedIndices.length === currentWord.length) {
+      completeWord();
+    }
+  }
+}
+
 function completeWord() {
   const wordDisplay = document.getElementById('word-display');
   wordDisplay.classList.add('revealed');
@@ -86,7 +110,7 @@ function completeWord() {
 
 function newWord() {
   currentWord = getRandomWord();
-  const revealCount = Math.floor(currentWord.length * 0.7);
+  const revealCount = Math.floor(currentWord.length * initialRevealPercentage);
   revealedIndices = [];
   for (let i = 0; i < revealCount; i++) {
     let index;
