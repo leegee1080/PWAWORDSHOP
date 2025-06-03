@@ -14,13 +14,13 @@ body {
 
 #game-container {
   text-align: center;
-  padding: 15px;
+  padding: 15px 0;
   width: 100%;
   max-width: 480px;
   box-sizing: border-box;
   transform: scale(var(--scale-factor, 1));
   transform-origin: top center;
-  padding-top: 100px;
+  padding-top: 120px;
 }
 
 #score {
@@ -31,23 +31,22 @@ body {
   font-size: 54px;
   font-weight: bold;
   z-index: 10;
-  padding: 5px 10px;
-  background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 5px;
+  white-space: nowrap;
 }
 
 #word-display {
   display: flex;
   justify-content: center;
-  margin: 40px 0;
-  flex-wrap: wrap;
+  margin: 60px 0 40px 0;
+  flex-wrap: nowrap;
+  white-space: nowrap;
 }
 
 .letter-box {
   width: 48px;
   height: 48px;
   border: 2px solid #ffffff;
-  margin: 4px;
+  margin: 0 4px;
   display: flex;
   justify-content: center;
   align-items: center;
