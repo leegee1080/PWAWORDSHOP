@@ -5,6 +5,7 @@ let selectedLetter = null;
 let letterData = {};
 const initialRevealPercentage = 0.4;
 const revealCost = 100;
+const skipCost = 50;
 
 function initializeGame() {
   loadJSON('jshelpers/letterData.json').then(data => {
@@ -104,6 +105,21 @@ function revealLetter() {
   if (revealedIndices.length === currentWord.length) {
     completeWord();
   }
+}
+
+function skipWord() {
+  if (playerScore < skipCost) {
+    const scoreElement = document.getElementById('score');
+    scoreElement.classList.add('incorrect');
+    setTimeout(() => scoreElement.classList.remove('incorrect'), 1000);
+    return;
+  }
+  playerScore -= skipCost;
+  const scoreElement = document.getElementById('score');
+  scoreElement.classList.add('correct');
+  setTimeout(() => scoreElement.classList.remove('correct'), 400);
+  updateScore();
+  newWord();
 }
 
 function completeWord() {
