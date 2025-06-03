@@ -1,6 +1,7 @@
 let currentWord = '';
 let revealedIndices = [];
 let playerScore = 200;
+let wordsSolved = 0;
 let selectedLetter = null;
 let letterData = {};
 const initialRevealPercentage = 0.4;
@@ -134,6 +135,7 @@ function completeWord() {
       wordDisplay.style.opacity = '1';
       const score = currentWord.split('').reduce((sum, letter) => sum + letterData[letter].worth, 0);
       playerScore += score;
+      wordsSolved += 1;
       updateScore();
       newWord();
     }
@@ -156,10 +158,12 @@ function newWord() {
 
 function updateScore() {
   document.getElementById('score-value').textContent = playerScore;
+  document.getElementById('words-solved').textContent = wordsSolved;
 }
 
 function resetGame() {
   playerScore = 200;
+  wordsSolved = 0;
   updateScore();
   newWord();
   const buttons = document.querySelectorAll('.letter-btn');
@@ -171,7 +175,8 @@ function saveGame() {
   localStorage.setItem('wordShop', JSON.stringify({
     score: playerScore,
     word: currentWord,
-    revealed: revealedIndices
+    revealed: revealedIndices,
+    wordsSolved: wordsSolved
   }));
 }
 
@@ -182,6 +187,7 @@ function loadGame() {
     playerScore = data.score;
     currentWord = data.word;
     revealedIndices = data.revealed;
+    wordsSolved = data.wordsSolved || 0;
     updateScore();
     displayWord();
   } else {
