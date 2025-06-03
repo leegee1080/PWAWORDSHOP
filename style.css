@@ -1,0 +1,102 @@
+body {
+  background-color: #1a1a1a;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  user-select: none;
+}
+
+#game-container {
+  text-align: center;
+  padding: 20px;
+}
+
+#score {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 24px;
+}
+
+#word-display {
+  display: flex;
+  justify-content: center;
+  margin: 50px 0;
+}
+
+.letter-box {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #ffffff;
+  margin: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  text-transform: uppercase;
+  background-color: #333;
+}
+
+.letter-box.revealed {
+  background-color: #4CAF50;
+}
+
+.letter-box.selected {
+  border-color: #ff0;
+}
+
+.letter-box.incorrect {
+  animation: blink 0.2s 5;
+}
+
+@keyframes blink {
+  50% { background-color: #ff0000; }
+}
+
+#alphabet {
+  display: grid;
+  grid-template-columns: repeat(9, 40px);
+  gap: 5px;
+  justify-content: center;
+}
+
+.letter-btn {
+  width: 40px;
+  height: 40px;
+  background-color: #444;
+  border: 1px solid #ffffff;
+  color: #ffffff;
+  font-size: 18px;
+  text-transform: uppercase;
+  cursor: pointer;
+  position: relative;
+}
+
+.letter-btn span {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  font-size: 12px;
+  color: #ccc;
+}
+
+#controls {
+  margin-top: 20px;
+}
+
+#skip-btn, #reset-btn {
+  padding: 10px 20px;
+  margin: 0 10px;
+  background-color: #555;
+  border: 1px solid #ffffff;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+#skip-btn:hover, #reset-btn:hover {
+  background-color: #777;
+}
