@@ -2,9 +2,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   await initializeWords();
   initializeGame();
   loadGame();
-  document.getElementById('skip-btn').addEventListener('click', skipWord);
-  document.getElementById('reveal-btn').addEventListener('click', revealLetter);
-  document.getElementById('reset-btn').addEventListener('click', resetGame);
+  const skipBtn = document.getElementById('skip-btn');
+  const revealBtn = document.getElementById('reveal-btn');
+  const resetBtn = document.getElementById('reset-btn');
+  skipBtn.addEventListener('click', skipWord);
+  revealBtn.addEventListener('click', revealLetter);
+  resetBtn.addEventListener('click', resetGame);
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/service-worker.js');
   }
