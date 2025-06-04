@@ -15,7 +15,7 @@ function initializeGame() {
     letterData = data;
     setupAlphabet();
     resetGame();
-    setInterval(saveGame, 60000);
+    // setInterval(saveGame, 60000);
   });
 }
 
@@ -40,6 +40,7 @@ function displayWord() {
     if (revealedIndices.includes(index)) {
       box.textContent = letter;
       box.classList.add('revealed');
+      box.style.pointerEvents = 'none'; // Disable clicks on revealed boxes
     } else {
       box.addEventListener('click', () => handleBoxClick(index));
     }
@@ -73,6 +74,7 @@ function handleBoxClick(index) {
     revealedIndices.push(index);
     boxes[index].textContent = selectedLetter;
     boxes[index].classList.add('revealed');
+    boxes[index].style.pointerEvents = 'none'; // Disable clicks after revealing
     if (revealedIndices.length === currentWord.length) {
       completeWord();
     }
@@ -89,7 +91,7 @@ function revealLetter() {
       unrevealedIndices.push(index);
     }
   });
-  if (unrevealedIndices.length === 0 || playerScore < revealCost) {
+  if (unrevealedIndices.length === 0 || playerScore < revealCost * (revealTimes + 1)) {
     if (playerScore < revealCost * (revealTimes + 1)) {
       const scoreElement = document.getElementById('score');
       scoreElement.classList.add('incorrect');
@@ -113,7 +115,6 @@ function revealLetter() {
 }
 
 function skipWord() {
-
   if (playerScore < skipCost * (skipTimes + 1)) {
     const scoreElement = document.getElementById('score');
     scoreElement.classList.add('incorrect');
@@ -171,6 +172,10 @@ function updateScore() {
 function resetGame() {
   playerScore = 200;
   wordsSolved = 0;
+  revealTimes = 0;
+  skipTimes = 0;
+  document.getElementById('reveal-cost-value').textContent = revealCost;
+  document.getElementById('skip-cost-value').textContent = skipCost;
   updateScore();
   newWord();
   const buttons = document.querySelectorAll('.letter-btn');
@@ -183,7 +188,9 @@ function saveGame() {
     score: playerScore,
     word: currentWord,
     revealed: revealedIndices,
-    wordsSolved: wordsSolved
+    wordsSolved: wordsSolved,
+    revealTimes: revealTimes,
+    skipTimes: skipTimes
   }));
 }
 
@@ -195,6 +202,10 @@ function loadGame() {
     currentWord = data.word;
     revealedIndices = data.revealed;
     wordsSolved = data.wordsSolved || 0;
+    revealTimes = data.revealTimes || 0;
+    skipTimes = data.skipTimes || 0;
+    document.getElementById('reveal-cost-value').textContent = revealCost * revealTimes;
+    document.getElementById('skip-cost-value').textContent = skipCost * skipTimes;
     updateScore();
     displayWord();
   } else {
