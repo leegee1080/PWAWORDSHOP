@@ -7,8 +7,8 @@ let letterData = {};
 let revealTimes = 0;
 let skipTimes = 0;
 const initialRevealPercentage = 0.5;
-const revealCost = 100;
-const skipCost = 50;
+const revealCost = 10;
+const skipCost = 10;
 
 function initializeGame() {
   loadJSON('jshelpers/letterData.json').then(data => {
