@@ -40,7 +40,7 @@ function displayWord() {
     if (revealedIndices.includes(index)) {
       box.textContent = letter;
       box.classList.add('revealed');
-      box.style.pointerEvents = 'none'; // Disable clicks on revealed boxes
+      box.style.pointerEvents = 'none';
     } else {
       box.addEventListener('click', () => handleBoxClick(index));
     }
@@ -74,7 +74,7 @@ function handleBoxClick(index) {
     revealedIndices.push(index);
     boxes[index].textContent = selectedLetter;
     boxes[index].classList.add('revealed');
-    boxes[index].style.pointerEvents = 'none'; // Disable clicks after revealing
+    boxes[index].style.pointerEvents = 'none';
     if (revealedIndices.length === currentWord.length) {
       completeWord();
     }
@@ -91,18 +91,20 @@ function revealLetter() {
       unrevealedIndices.push(index);
     }
   });
-  if (unrevealedIndices.length === 0 || playerScore < revealCost * (revealTimes + 1)) {
-    if (playerScore < revealCost * (revealTimes + 1)) {
+  const currentRevealCost = revealCost * (revealTimes + 1);
+  if (unrevealedIndices.length === 0 || playerScore < currentRevealCost) {
+    if (playerScore < currentRevealCost) {
       const scoreElement = document.getElementById('score');
       scoreElement.classList.add('incorrect');
+      scoreElement.classList.remove('correct');
       setTimeout(() => scoreElement.classList.remove('incorrect'), 1000);
     }
     return;
   }
   const randomIndex = unrevealedIndices[Math.floor(Math.random() * unrevealedIndices.length)];
-  playerScore -= revealCost;
+  playerScore -= currentRevealCost;
   revealTimes++;
-  document.getElementById('reveal-cost-value').textContent = revealCost * revealTimes;
+  document.getElementById('reveal-cost-value').textContent = revealCost * (revealTimes + 1);
   const scoreElement = document.getElementById('score');
   scoreElement.classList.add('correct');
   setTimeout(() => scoreElement.classList.remove('correct'), 400);
@@ -115,15 +117,17 @@ function revealLetter() {
 }
 
 function skipWord() {
-  if (playerScore < skipCost * (skipTimes + 1)) {
+  const currentSkipCost = skipCost * (skipTimes + 1);
+  if (playerScore < currentSkipCost) {
     const scoreElement = document.getElementById('score');
     scoreElement.classList.add('incorrect');
+    scoreElement.classList.remove('correct');
     setTimeout(() => scoreElement.classList.remove('incorrect'), 1000);
     return;
   }
-  playerScore -= skipCost;
+  playerScore -= currentSkipCost;
   skipTimes++;
-  document.getElementById('skip-cost-value').textContent = skipCost * skipTimes;
+  document.getElementById('skip-cost-value').textContent = skipCost * (skipTimes + 1);
   const scoreElement = document.getElementById('score');
   scoreElement.classList.add('correct');
   setTimeout(() => scoreElement.classList.remove('correct'), 400);
@@ -204,8 +208,8 @@ function loadGame() {
     wordsSolved = data.wordsSolved || 0;
     revealTimes = data.revealTimes || 0;
     skipTimes = data.skipTimes || 0;
-    document.getElementById('reveal-cost-value').textContent = revealCost * revealTimes;
-    document.getElementById('skip-cost-value').textContent = skipCost * skipTimes;
+    document.getElementById('reveal-cost-value').textContent = revealCost * (revealTimes + 1);
+    document.getElementById('skip-cost-value').textContent = skipCost * (skipTimes + 1);
     updateScore();
     displayWord();
   } else {
