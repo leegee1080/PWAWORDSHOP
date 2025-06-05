@@ -7,8 +7,8 @@ let letterData = {};
 let revealTimes = 0;
 let skipTimes = 0;
 const initialRevealPercentage = 0.5;
-const revealCost = 10;
-const skipCost = 10;
+const revealCost = 100;
+const skipCost = 50;
 
 function initializeGame() {
   loadJSON('jshelpers/letterData.json').then(data => {
@@ -143,7 +143,7 @@ function completeWord() {
   const interval = setInterval(() => {
     wordDisplay.style.opacity = wordDisplay.style.opacity === '0.5' ? '1' : '0.5';
     blinks++;
-    if (blinks >= 10) {
+    if (blinks >= 3) {
       clearInterval(interval);
       wordDisplay.style.opacity = '1';
       wordDisplay.classList.remove('revealed');
